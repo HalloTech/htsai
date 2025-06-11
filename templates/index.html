@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HalloTech-VTR</title>
+  <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Comfortaa', cursive;
+      background: radial-gradient(circle at center, #c0c5ff 2%, #add8e6 31.93%, #ffffff);
+      color: #333;
+      overflow-x: hidden;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: auto;
+      padding: 40px 20px;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 3em;
+      margin-bottom: 40px;
+      background: linear-gradient(to right, #ff0080, #7928ca);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .upload-section {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 30px;
+      justify-content: center;
+      margin-bottom: 50px;
+    }
+
+    .upload-box {
+      width: 350px;
+      height: 350px;
+      background: rgba(255, 255, 255, 0.8);
+      border: 2px dashed #b76cf4;
+      border-radius: 20px;
+      box-shadow: 0 0 20px rgba(233, 94, 255, 0.2);
+      text-align: center;
+      padding: 20px;
+      position: relative;
+      cursor: pointer;
+      overflow: hidden;
+    }
+
+    .upload-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 10px;
+      display: none;
+    }
+
+    .upload-box input[type="file"] {
+      display: none;
+    }
+
+    .generate-section {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    button {
+      padding: 15px 35px;
+      font-size: 18px;
+      background: linear-gradient(to right, #ff0080, #7928ca);
+      border: none;
+      color: white;
+      cursor: pointer;
+      border-radius: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: 0.4s ease;
+      box-shadow: 0 0 10px #ff0080;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 20px #ff0080;
+    }
+
+    #result-box {
+      display: none;
+      margin-top: 40px;
+      text-align: center;
+    }
+
+    #result-box img {
+      max-width: 700px;
+      width: 100%;
+      border-radius: 15px;
+      box-shadow: 0 0 20px rgba(255, 0, 128, 0.3);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>HalloTech VTR</h1>
+
+    <form id="image-form" action="/generate" method="post" enctype="multipart/form-data">
+      <div class="upload-section">
+        <div class="upload-box" onclick="document.getElementById('user_input').click()">
+          <input type="file" id="user_input" name="user_image" accept="image/*" onchange="loadImage(event, 'user-img')">
+          <img id="user-img" />
+        </div>
+
+        <div class="upload-box" onclick="document.getElementById('product_input').click()">
+          <input type="file" id="product_input" name="product_image" accept="image/*" onchange="loadImage(event, 'product-img')">
+          <img id="product-img" />
+        </div>
+      </div>
+
+      <div class="generate-section">
+        <button type="submit">See the Magic</button>
+      </div>
+
+      {% if result_image_path %}
+      <div class="upload-box" style="margin: 40px auto; max-width: 700px; text-align: center;">
+        <label style="font-size: 1.4em; color: #a84adf;">Result Collage</label><br><br>
+        <img src="{{ url_for('static', filename=result_image_path) }}" alt="Result Collage"
+             style="width: 100%; border-radius: 15px; box-shadow: 0 0 20px rgba(255, 0, 128, 0.3);" />
+        <br><br>
+        <a href="{{ url_for('download', filename=result_image_path.split('/')[-1]) }}">
+          <button type="button">Download Collage</button>
+        </a>
+      </div>
+      {% endif %}
+    </form>
+  </div>
+
+  <script>
+    function loadImage(event, id) {
+      const file = event.target.files[0];
+      const img = document.getElementById(id);
+      img.src = URL.createObjectURL(file);
+      img.style.display = 'block';
+    }
+  </script>
+</body>
+</html>

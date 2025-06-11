@@ -1,0 +1,17 @@
+# Ignore Python cache and virtualenv
+__pycache__/
+*.pyc
+venv/
+.ckpts/
+.ckpts
+ckpts/
+.ckpts/
+.ckpts/*
+
+# Ignore Hugging Face cache if added
+*.pth
+*.onnx
+*.pkl
+
+# Ignore system files
+.DS_Store
